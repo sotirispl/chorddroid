@@ -38,7 +38,6 @@ public class ContentNodesActivity extends Activity implements OnClickListener {
 		serviceIntent = new Intent(this, ChordService.class);
 	}
 
-	@Override
 	public void onClick(View arg0) {
 
 		if (arg0 == buttonReg) {
