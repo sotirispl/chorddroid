@@ -133,4 +133,78 @@ public class Node implements Runnable,Serializable {
 		
 		
 	}
+	
+	public void stabilize() {
+                NodeIdentifier x = null, actual_successor = this.getSuccessor();
+                Boolean foundSuccessor = false;
+
+                try {
+                        // actual_successor = dummy_successor;
+                        foundSuccessor = true;
+
+                        // MSG to get Predecessor
+                        //x = actual_successor.getPredecessor();
+                }// try
+                catch (NullPointerException npe) {
+                        // An exei pesei o successor, pairnei ton epomeno apo th lista twn
+                        // triwn
+                        find_new_successor();
+                }
+                if (x != null) {
+                        if (isBetween(x.getHash(), nodeId.getHash(), actual_successor.getHash())) {
+                                this.setSuccessor(new NodeIdentifier(x.getAddr(), x.getPort()));
+                        }
+                        // else successor did not change
+                }
+                // else our successor doesn't have a predecessor
+
+                try {
+                        // MSG to notify
+                        //actual_successor.notify(this.getNodeId());
+                }
+                catch (NullPointerException npe) {
+                        // epese o successor, psaxnoume gia kainourio apo th lista me tous
+                        // treis
+                        find_new_successor();
+                }
+        }
+
+        public NodeIdentifier getSuccessor() {
+                return this.successor;
+        }
+        
+        public void setSuccessor(NodeIdentifier newSuccessor)
+        {
+                this.successor=newSuccessor;
+        }
+
+        public NodeIdentifier getPredecessor() {
+                return this.predecessor;
+        }
+        
+        private void find_new_successor()
+        {
+        }
+        
+        public static boolean isBetween(String kID, String xID, String yID)
+        {
+                if(xID.equals(yID)) return true;
+                
+                return ( (((xID.compareTo(kID)) > 0) 
+                                        && ((yID.compareTo(kID)) > 0) 
+                                        && ((xID.compareTo(yID)) > 0))
+                                
+                                 ||
+                                
+                                 (((xID.compareTo(kID)) < 0) 
+                                        && ((yID.compareTo(kID)) > 0) 
+                                        && ((xID.compareTo(yID)) < 0))
+                                
+                                 ||
+                                        
+                                 (((xID.compareTo(kID)) < 0) 
+                                        && ((yID.compareTo(kID)) < 0) 
+                                        && ((xID.compareTo(yID)) > 0))
+                                );
+        }
 }
