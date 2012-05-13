@@ -16,7 +16,6 @@
         <activity android:name="gr.aueb.mscis.Activities.ContentNodesActivity" />
         <activity android:name="gr.aueb.mscis.Activities.DHTActivity" />
         <activity android:name="gr.aueb.mscis.Activities.FilesActivity" />
-        <service android:enabled="true" android:name="gr.aueb.mscis.Activities.ChordService" />
        </application>
 <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 </manifest>

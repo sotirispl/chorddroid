@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import android.os.Message;
 import android.util.Log;
 
 public class RemoteMessageAgent {
@@ -96,23 +97,36 @@ public class RemoteMessageAgent {
 		RemoteMessage response = null;
 		try {
 			Log.v("ip:port", ipAddr +":"+port);
-			s = new Socket(ipAddr.toString(), port);
-			s.setSoTimeout(3000);
+			s = new Socket(ipAddr, port);
+			//s = new Socket("192.168.1.9", 7000);
+			//s.setSoTimeout(3000);
 		} catch (SocketException e) {
-			ContentNodesActivity.statusText.setText("1Couldn't connect to: "+ipAddr.toString()+":"+port);
-			return response;
+			//ContentNodesActivity.statusText.setText("1Couldn't connect to: "+ipAddr.toString()+":"+port);
+			 Message msg = ContentNodesActivity.handlerGlobal.obtainMessage();
+			   // msg.what = UPDATE_IMAGE;
+			    msg.obj = "1Couldn't connect to: "+ipAddr.toString()+":"+port;
+			   // msg.arg1 = index;
+			    ContentNodesActivity.handlerGlobal.sendMessage(msg);
+			return response; /*einai null an prokupsei error*/
 			//Log.v("register", e.getMessage());
 
 			// System.out.println("Node " + s.getInetAddress() + ":" +
 			// s.getPort()
 			// + " disconnected");.ConnectException
 		}  catch (UnknownHostException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			 Message msg = ContentNodesActivity.handlerGlobal.obtainMessage();
+			   // msg.what = UPDATE_IMAGE;
+			    msg.obj = "11Couldn't connect to: "+ipAddr.toString()+":"+port;
+			   // msg.arg1 = index;
+			    ContentNodesActivity.handlerGlobal.sendMessage(msg);
 			return response;
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			 Message msg = ContentNodesActivity.handlerGlobal.obtainMessage();
+			   // msg.what = UPDATE_IMAGE;
+			    msg.obj = "3Couldn't connect to: "+ipAddr.toString()+":"+port;
+			   // msg.arg1 = index;
+			    ContentNodesActivity.handlerGlobal.sendMessage(msg);
 			return response;
 		}
 		
@@ -126,13 +140,18 @@ public class RemoteMessageAgent {
 		response = (RemoteMessage) ois.readObject();
 		
 		if (response.getProtocolType().equals(ProtocolType.FIND_SUCCESSOR_REPLY)) {
-			ContentNodesActivity.statusText.setText("connect to: "+ response.getNodeId().getAddr());
+			//ContentNodesActivity.statusText.setText("connect to: "+ response.getNodeId().getAddr());
+			Message msg = ContentNodesActivity.handlerGlobal.obtainMessage();
+			   // msg.what = UPDATE_IMAGE;
+			    msg.obj = "Successor Reply";
+			   // msg.arg1 = index;
+			    ContentNodesActivity.handlerGlobal.sendMessage(msg);
 		}
 
-		s.close();
+		s.close(); 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			ContentNodesActivity.statusText.setText("2Couldn't connect to: "+ipAddr.toString()+":"+port);
+			//ContentNodesActivity.statusText.setText("2Couldn't connect to: "+ipAddr.toString()+":"+port);
 //		} catch (SocketException e) {
 //			ContentNodesActivity.statusText.setText("error");
 //			//Log.v("register", e.getMessage());

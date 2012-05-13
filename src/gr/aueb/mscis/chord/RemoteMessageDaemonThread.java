@@ -26,6 +26,7 @@ public class RemoteMessageDaemonThread extends Thread {
 	}
 
 	public void listen() {
+		
 		try {
 			ois = new ObjectInputStream(socket.getInputStream());
 		} catch (StreamCorruptedException e1) {

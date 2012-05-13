@@ -4,6 +4,8 @@ import gr.aueb.mscis.configuration.Config;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ public class ContentNodesActivity extends Activity implements OnClickListener {
 	private EditText edittext;
 	String port = null;
 	Intent serviceIntent;
+	public static Handler handlerGlobal;
 
 	public static TextView statusText; /*
 										 * to xrisimopoiw gia na allazw timi apo
@@ -35,7 +38,7 @@ public class ContentNodesActivity extends Activity implements OnClickListener {
 		buttonLeave.setEnabled(false);
 
 		statusText = (TextView) findViewById(R.id.text_status);
-		serviceIntent = new Intent(this, ChordService.class);
+		serviceIntent = new Intent(this, ChordCoordinatorThread.class);
 	}
 
 	public void onClick(View arg0) {
@@ -55,7 +58,26 @@ public class ContentNodesActivity extends Activity implements OnClickListener {
 			edittext.setText("port " + port + " selected");
 			Config.listeningPort = Integer.parseInt(port);
 			/* start tou service pou 8a trexei apo pisw. */
-			startService(serviceIntent);
+			
+			
+			
+			
+			final Handler handler = new Handler(){
+		    	  @Override
+		    	  public void handleMessage(Message msg) {
+		    		  ContentNodesActivity.statusText.setText("idle" + msg.obj);
+		    	    super.handleMessage(msg);
+		    	  }
+		    	};
+		    	handlerGlobal = handler;
+			
+//////////////////////////////////////////////////////////////////////////////////			
+/**/			/*ekkinisi tou coordinator thread*/
+/**/		    ChordCoordinatorThread cct = new ChordCoordinatorThread();
+/**/		    cct.start();
+///////////////////////////////////////////////////////////////////////////////		        
+			/*klisi tou thread anti tou service*/
+			//startService(serviceIntent);
 		} else if (arg0 == buttonLeave) {
 			buttonReg.setEnabled(true);
 			buttonLeave.setEnabled(false);
@@ -63,7 +85,8 @@ public class ContentNodesActivity extends Activity implements OnClickListener {
 			edittext.setEnabled(true);
 			edittext.setText(port);
 			edittext.setFocusable(true);
-			stopService(serviceIntent);
+			ChordCoordinatorThread.t1.stop();
+			//stopService(serviceIntent);
 			ContentNodesActivity.statusText.setText("idle"); 
 		}
 	}

@@ -1,7 +1,6 @@
 package gr.aueb.mscis.chord;
 
 import gr.aueb.mscis.configuration.Config;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 
@@ -12,12 +11,13 @@ public class RemoteMessageDaemon extends Thread {
 	private int serverPort = Config.listeningPort;
 
 	public void run() {
+				
 		try {
 			serverSocket = new ServerSocket(serverPort);
 			// System.out.println("Tracker Started");
 		} catch (IOException e) {
-			System.err.println("Could not listen on port: " + serverPort + ".");
-			System.exit(-1);
+		//	System.err.println("Could not listen on port: " + serverPort + ".");
+		//	System.exit(-1);
 		}
 
 		while (listening) {
@@ -35,6 +35,6 @@ public class RemoteMessageDaemon extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("closed");
+		//System.out.println("closed");
 	}
 }
