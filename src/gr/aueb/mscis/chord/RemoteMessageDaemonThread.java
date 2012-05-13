@@ -43,15 +43,18 @@ public class RemoteMessageDaemonThread extends Thread {
 
 			// respond to synchronous calls
 			if (message.getProtocolType().equals(ProtocolType.FIND_SUCCESSOR)) {
+				
 				oos = new ObjectOutputStream(socket.getOutputStream());
 				/*8elei ulopoiisi ayti.8a prepei apo ta finger tables na psaxnei 
 				 * to ton komvo pou zitaei gia successor o aitoumenos*/
 				//reply = findSuccessor(message);
 				
 				/*prokataskevasmeni apantisi gia testing*/
-				RemoteMessage rm = new RemoteMessage(ProtocolType.FIND_SUCCESSOR_REPLY, null, null);
-				oos.writeObject(rm);
-				oos.close();
+				//RemoteMessage rm = new RemoteMessage(ProtocolType.FIND_SUCCESSOR_REPLY, null, null);
+				//oos.writeObject(rm);
+				//oos.close();
+				
+				
 			}
 			// else if allo minima klp
 			// }

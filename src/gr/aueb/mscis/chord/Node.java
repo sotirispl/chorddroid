@@ -9,26 +9,37 @@ import gr.aueb.mscis.protocol.ProtocolType;
 import gr.aueb.mscis.protocol.RemoteMessage;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.os.Message;
 
 public class Node implements Runnable,Serializable { 
 
 	private static final long serialVersionUID = 1L;
-	private NodeIdentifier successor;
-	private NodeIdentifier predecessor;
-	private NodeIdentifier nodeId;
+	public static NodeIdentifier successor;
+	public static NodeIdentifier predecessor;
+	public static NodeIdentifier nodeId;
 	private RemoteMessageDaemon rDaemon;
+	private FingerAgent fAgent;
+	public static NodeIdentifier[] fingerTable;
 	private String key; /* to hash tou komvou.De to exw xrisimopoiisei akoma */
-	public Node() {}
+	
+	public Node() {
+		fingerTable = new NodeIdentifier[6];
+	}
 	
 	public void NodeRun() {
 		if(register()){
-
+		
 		// threads edw gia ta upoloipa.RemoteDaemon, Agent DHT klp..
 		rDaemon = new RemoteMessageDaemon();
 		Thread rDeamonThread = new Thread(rDaemon);
 		rDeamonThread.start();
+		
+		fAgent = new FingerAgent();
+		Thread fAgentThread = new Thread(fAgent);
+		fAgentThread.start();
 		}		
 		
 		else {}
@@ -122,7 +133,7 @@ public class Node implements Runnable,Serializable {
 			    msg.obj = "received successor";
 			   // msg.arg1 = index; 
 			    ContentNodesActivity.handlerGlobal.sendMessage(msg);
-			
+			    
 		}
 			
 
