@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" 
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<TextView android:id="@+id/header" 
+	android:text="port (leave empty for port 5000)"
+	android:padding="15dip" 
+	android:textSize="18dip" 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content" />
+
+	<EditText android:id="@+id/editText" 
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"/>
+	
+
+	<Button android:id="@+id/register" 
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content" 
+	android:text="register to tracker" />
+
+	<Button android:id="@+id/leave" 
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content" 
+	android:text="leave" />
+	
+	<TextView android:id="@+id/text_status" 
+	android:text="Status: idle"
+	android:padding="15dip" 
+	android:textSize="18dip" 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content" />
+
+</LinearLayout>

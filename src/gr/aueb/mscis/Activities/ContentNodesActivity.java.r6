@@ -1,0 +1,46 @@
+package gr.aueb.mscis.Activities;
+
+import gr.aueb.mscis.chord.ChordService;
+import gr.aueb.mscis.chord.RemoteMessageClient;
+import gr.aueb.mscis.chord.RemoteMessageServer;
+import gr.aueb.mscis.configuration.Config;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.view.View;
+import android.view.View.OnClickListener;
+
+public class ContentNodesActivity extends Activity implements OnClickListener{
+		
+	Button button;
+	private EditText edittext;
+	public static TextView statusText; /*to xrisimopoiw gia na allazw timi apo to service sto text*/
+	
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.content_nodes_activity_layout);
+
+		button = (Button) findViewById(R.id.button1);
+		button.setOnClickListener(this);
+		
+		statusText = (TextView) findViewById(R.id.text_status);
+	}
+	
+	@Override
+	public void onClick(View arg0) {
+		/*diabasma tou ari8mou tou port pou 8a akouei o node*/
+		edittext = (EditText) findViewById(R.id.editText);
+		String port = edittext.getText().toString();
+	    edittext.setText("port "+port+" selected");
+		Config.listeningPort = Integer.parseInt(port);
+		
+		/*start tou service pou 8a trexei apo pisw.*/
+        startService(new Intent(this, ChordService.class));
+		
+	}
+
+	
+}
